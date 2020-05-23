@@ -1,0 +1,63 @@
+<!--pages/user/user.wxml-->
+<view class="body">
+  <view class="widget">
+    <view class="widgets__item">
+      <view class="userinfo">
+      <text>{{UID}}</text>
+      <image class="userimage" src="/image/user.jpg"></image>
+    </view></view>
+    <view class="widgets__item" bindtap="bindCID">
+      <view class="menu-item">
+        <view class="menu-item-main">
+          <text class="menu-item-name">绑定车牌号</text>
+          <button class="menu-item-arrow-btn" type="primary" size="mini" bindtap="bindcgCar">修改
+          </button>
+        </view>
+        <view class="menu-item-list">
+          <view class="menu-item-list-item small" style="{{'border-top:none;'}}">
+            <view class="menu-item-list-item-text">
+              <text class="menu-item-list-item-text-black">{{CID}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="widgets__item" bindtap="bindUser">
+      <view class="menu-item">
+        <view class="menu-item-main">
+          <text class="menu-item-name">用户信息</text>
+          <button class="menu-item-arrow-btn" type="primary" size="mini" bindtap="bindcgUser">修改
+          </button>
+        </view>
+        <view class="menu-item-list">
+          <view class="menu-item-list-item medium" style="{{'border-top:none;'}}">
+            <view class="menu-item-list-item-text">
+              <text class="menu-item-list-item-text-black">用户名：</text>
+              <text class="menu-item-list-item-text-gray">{{User.Uname}}</text>
+            </view>
+            <view class="menu-item-list-item-text">
+              <text class="menu-item-list-item-text-black">手机号：</text>
+              <text class="menu-item-list-item-text-gray">{{User.Uphone}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="widgets__item" bindtap="bindUser">
+      <view class="menu-item ">
+        <view class="menu-item-main ">
+          <text class="menu-item-name ">余额</text>
+          <button class="menu-item-arrow-btn" type="primary" size="mini" bindtap="bindcgBalance">充值
+          </button>
+        </view>
+        <view class="menu-item-list ">
+          <view class="menu-item-list-item medium " style="{{ 'border-top:none;'}} ">
+            <view class="menu-item-list-item-text ">
+              <text class="menu-item-list-item-text-black ">{{User.Balance}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

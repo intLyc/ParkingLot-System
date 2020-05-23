@@ -1,0 +1,15 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="section">
+    <input bindinput="bindUidInput" placeholder="用户ID" auto-focus/>
+  </view>
+  <view class="section">
+    <input bindinput="bindUpswdInput" type="password" placeholder="用户密码" auto-focus/>
+  </view>
+</view>
+<view class="gap">
+  <view class="btn-container">
+    <button type="primary" size="default" bindtap="bindButtonLogin">登陆</button>
+    <button type="default" bindtap="bindButtonLogout">注册</button>
+  </view>
+</view>

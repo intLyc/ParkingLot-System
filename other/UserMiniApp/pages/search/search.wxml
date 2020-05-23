@@ -1,0 +1,77 @@
+<!--pages/search/search.wxml-->
+<view class="body">
+  <view class="widget">
+    <swiper indicator-dots="true" autoplay="true" interval="3000" duration="1000">
+      <block wx:for-items="{{background}}">
+        <swiper-item>
+          <view class="swiper-item bc_{{item}}"></view>
+        </swiper-item>
+      </block>
+    </swiper>
+    <view class="widgets__item" bindtap="bindLotNum">
+      <view class="menu-item">
+        <view class="menu-item-main">
+          <text class="menu-item-name">剩余车位</text>
+        </view>
+        <view class="menu-item-list">
+          <view class="menu-item-list-item small" style="{{'border-top:none;'}}">
+            <view class="menu-item-list-item-text">
+              <text class="menu-item-list-item-text-black">主停车场：</text>
+              <text class="menu-item-list-item-text-gray">{{LotNum}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="widgets__item" bindtap="bindCarInfo">
+      <view class="menu-item">
+        <view class="menu-item-main">
+          <text class="menu-item-name">当前停车信息</text>
+        </view>
+        <view class="menu-item-list">
+          <view class="menu-item-list-item medium" style="{{'border-top:none;'}}">
+            <view class="menu-item-list-item-text">
+              <text class="menu-item-list-item-text-black">车牌号：</text>
+              <text class="menu-item-list-item-text-gray">{{Car.CID}}</text>
+            </view>
+            <view class="menu-item-list-item-text">
+              <text class="menu-item-list-item-text-black">开始时间：</text>
+              <text class="menu-item-list-item-text-gray">{{Car.Intime}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="widgets__item">
+      <view class="menu-item">
+        <view class="menu-item-main" bindtap="bindRecordInfo">
+          <text class="menu-item-name">历史停车记录</text>
+          <image class="menu-item-arrow {{opened ? 'open' : 'close'}}" src="/image/arrowright.png">
+          </image>
+        </view>
+        <view class="menu-item-list {{opened ? 'open' : 'close'}}">
+          <block wx:for-items="{{items}}" wx:for-item="items">
+            <view class="menu-item-list-item" style="{{index === 0 ? 'border-top:none;' : ''}}">
+              <view class="menu-item-list-item-text">
+                <text class="menu-item-list-item-text-black">车牌号：</text>
+                <text class="menu-item-list-item-text-gray">{{items.CID}}</text>
+              </view>
+              <view class="menu-item-list-item-text">
+                <text class="menu-item-list-item-text-black">开始时间：</text>
+                <text class="menu-item-list-item-text-gray">{{items.Intime}}</text>
+              </view>
+              <view class="menu-item-list-item-text">
+                <text class="menu-item-list-item-text-black">结束时间：</text>
+                <text class="menu-item-list-item-text-gray">{{items.Outtime}}</text>
+              </view>
+              <view class="menu-item-list-item-text">
+                <text class="menu-item-list-item-text-black">花费：</text>
+                <text class="menu-item-list-item-text-gray">{{items.Cost}}</text>
+              </view>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

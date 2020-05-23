@@ -1,0 +1,39 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/search/search",
+    "pages/user/user",
+    "pages/user/cgCar/cgCar",
+    "pages/user/cgInfo/cgInfo",
+    "pages/user/cgBalance/cgBalance"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fbf9fe",
+    "navigationBarTitleText": "智能停车场",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#fbf9fe"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "tabBar": {
+    "color": "#dddddd",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/search/search",
+        "iconPath": "image/search.png",
+        "selectedIconPath": "image/searchHL.png",
+        "text": "查找"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "iconPath": "image/me.png",
+        "selectedIconPath": "image/meHL.png",
+        "text": "我的"
+      }
+    ]
+  }
+}

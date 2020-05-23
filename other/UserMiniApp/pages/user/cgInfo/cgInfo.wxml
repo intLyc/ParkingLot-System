@@ -1,0 +1,15 @@
+<!--pages/user/cgInfo/cgInfo.wxml-->
+<view class="container">
+  <view class="section">
+    <input bindinput="bindUnameInput" placeholder="输入用户名" auto-focus/>
+  </view>
+  <view class="section">
+    <input bindinput="bindUphoneInput" placeholder="输入电话号码" auto-focus/>
+  </view>
+</view>
+<view class="gap">
+  <view class="btn-container">
+    <button type="primary" size="default" bindtap="bindButtonYes">确认</button>
+    <button type="default" bindtap="bindButtonNo">取消</button>
+  </view>
+</view>

@@ -1,0 +1,12 @@
+<!--pages/user/cgBalance/cgBalance.wxml-->
+<view class="container">
+  <view class="section">
+    <input bindinput="bindBalanceInput" placeholder="输入充值金额" auto-focus/>
+  </view>
+</view>
+<view class="gap">
+  <view class="btn-container">
+    <button type="primary" size="default" bindtap="bindButtonYes">确认</button>
+    <button type="default" bindtap="bindButtonNo">取消</button>
+  </view>
+</view>
