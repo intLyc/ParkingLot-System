@@ -1,0 +1,60 @@
+CREATE SCHEMA `ParkingLot` DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE `ParkingLot`.`Lot` (
+  `LID` VARCHAR(20) NOT NULL,
+  `Num` INT NOT NULL,
+  PRIMARY KEY (`LID`));
+
+CREATE TABLE `ParkingLot`.`User` (
+  `UID` VARCHAR(20) NOT NULL,
+  `Upswd` VARCHAR(20) NOT NULL,
+  `Uname` VARCHAR(20) NULL,
+  `Uphone` VARCHAR(20) NULL,
+  `Balance` FLOAT NULL,
+  PRIMARY KEY (`UID`));
+
+CREATE TABLE `ParkingLot`.`UserCar` (
+  `UID` VARCHAR(20) NOT NULL,
+  `CID` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`UID`),
+  CONSTRAINT `fk_UCUID`
+    FOREIGN KEY (`UID`)
+    REFERENCES `ParkingLot`.`User` (`UID`));
+
+CREATE TABLE `ParkingLot`.`LotCar` (
+  `CID` VARCHAR(20) NOT NULL,
+  `Intime` DATETIME NOT NULL,
+  PRIMARY KEY (`CID`));
+
+CREATE TABLE `ParkingLot`.`Record` (
+  `RID` INT NOT NULL AUTO_INCREMENT,
+  `UID` VARCHAR(20) NULL,
+  `CID` VARCHAR(20) NOT NULL,
+  `Intime` DATETIME NOT NULL,
+  `Outtime` DATETIME NOT NULL,
+  `Cost` FLOAT NOT NULL,
+  PRIMARY KEY (`RID`));
+
+/*车辆入库自动记录时间、减少车位*/
+DELIMITER $
+CREATE TRIGGER tg_in
+BEFORE INSERT ON LotCar
+FOR EACH ROW
+BEGIN
+SET NEW.Intime = DATE_FORMAT(now(),'%Y%m%d%H%i%s');
+UPDATE Lot SET Num = Num-1 WHERE LID = 'MAIN';
+END$
+
+/*添加交易记录自动记录时间、自动出库、自动扣取费用、增加车位*/
+DELIMITER $
+CREATE TRIGGER tg_out
+BEFORE INSERT ON Record
+FOR EACH ROW
+BEGIN
+SET NEW.UID = (SELECT UID FROM UserCar WHERE CID = NEW.CID);
+SET NEW.Intime = (SELECT Intime FROM LotCar WHERE CID = NEW.CID);
+SET NEW.Outtime = DATE_FORMAT(now(),'%Y%m%d%H%i%s');
+DELETE FROM LotCar WHERE CID = NEW.CID;
+UPDATE User SET Balance = Balance - NEW.Cost WHERE UID = NEW.UID;
+UPDATE Lot SET Num = Num+1 WHERE LID = 'MAIN';
+END$
