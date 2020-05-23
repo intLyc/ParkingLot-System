@@ -61,23 +61,23 @@
 │   │   ├── index.js
 │   │   ├── index.wxml
 │   │   └── index.wxss
-│   ├── search                        #search页面
+│   ├── search                       #search页面
 │   │   ├── search.js
 │   │   ├── search.wxml
 │   │   └── search.wxss
-│   └── user                          #user页面
+│   └── user                         #user页面
 │       ├── user.js
 │       ├── user.wxml
 │       ├── user.wxss
-│       ├── cgInfo                    #修改信息页面
+│       ├── cgInfo                   #修改信息页面
 │       │   ├── cgInfo.j
 │       │   ├── cgInfo.wxml
 │       │   └── cgInfo.wxss
-│       ├── cgCar                     #修改绑定车牌页面
+│       ├── cgCar                    #修改绑定车牌页面
 │       │   ├── cgCar.js
 │       │   ├── cgCar.wxml
 │       │   └── cgCar.wxss
-│       └── cgBalance                 #充值页面
+│       └── cgBalance                #充值页面
 │            ├── cgBalance.js
 │            ├── cgBalance.wxml
 │            └── cgBalance.wxss
