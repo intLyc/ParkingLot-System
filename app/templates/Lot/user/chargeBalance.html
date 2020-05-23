@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='layui/css/layui.css') }}" media="all">
+</head>
+
+<body>
+    <div style="margin-top: 20px;margin-left: 20px;margin-right: 20px;">
+        <form class="layui-form layui-form-pane" action="" lay-filter="change">
+            <div class="layui-form-item" style="text-align: center;">
+                <input name="Balance" placeholder="单位（元）" autocomplete="off" class="layui-input" type="number">
+            </div>
+            <div class="layui-form-item" style="text-align: center;">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">确认</button>
+            </div>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='layui/layui.all.js') }}" charset="utf-8"></script>
+    <script src="{{ url_for('static', filename='js/ip_url.js') }}"></script>
+    <script>
+        layui.use(['jquery', 'form'], function (args) {
+            var $ = layui.jquery;
+            var form = layui.form;
+            //监听提交
+            form.on('submit(formDemo)', function (mydata) {
+                var xdata = mydata.field;
+                xdata.UID = parent.subdata.UID;
+                console.log(xdata);
+                $.ajax({
+                    url: ip_url + "chargeBalance",
+                    type: 'get',
+                    async: false,
+                    data: xdata,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data) {
+                            layer.msg("充值成功！");
+                            setTimeout("parent.window.location.reload()", 1500);
+                        }
+                        else {
+                            layer.msg("充值失败！");
+                        }
+                    }
+                })
+                return false;
+            });
+        });
+    </script>
+
+</body>
+
+</html>

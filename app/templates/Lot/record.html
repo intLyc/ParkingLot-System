@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='layui/css/layui.css') }}" media="all">
+</head>
+
+<body>
+    <div style="margin-left: 20px;">
+        <div class="layui-btn-group demoTable">
+            <table id="demo" lay-filter="test"></table>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='layui/layui.all.js') }}" charset="utf-8"></script>
+    <script src="{{ url_for('static', filename='js/ip_url.js') }}"></script>
+    <script>
+        layui.use(['jquery',], function (args) {
+            var $ = layui.jquery;
+
+            //获取记录
+            $.ajax({
+                url: ip_url + "getRecords",
+                type: 'get',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    if (data) {
+                        showtable(data);
+                    }
+                    else {
+                        layer.msg("获取数据失败！");
+                    }
+                }
+            })
+
+            //显示表格数据
+            function showtable(mydata) {
+                var element = layui.element;
+                var table = layui.table;
+                var form = layui.form;
+                //展示已知数据
+                table.render({
+                    elem: '#demo',
+                    cols: [[ //标题栏
+                        { field: 'RID', title: '索引', width: 80, sort: true },
+                        { field: 'CID', title: '车牌号', width: 150, sort: true },
+                        { field: 'UID', title: 'ID', width: 120, sort: true },
+                        { field: 'Intime', title: '入库时间', width: 200, sort: true },
+                        { field: 'Outtime', title: '出库时间', width: 200, sort: true },
+                        { field: 'Cost', title: '花费', width: 80, sort: true },
+                        { fixed: 'right', title: '操作', width: 80, align: 'center', toolbar: "<div><a class='layui-btn layui-btn-danger layui-btn-sm' lay-event='delete'> 删除 </a><div>" }
+                    ]],
+                    data: mydata,
+                    even: true,
+                    page: true, //是否显示分页
+                    limits: [5, 12, 20],
+                    limit: 12 //每页默认显示的数量
+                });
+
+                //监听工具条
+                table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                    var subdata = obj.data; //获得当前行数据
+                    var layEvent = obj.event; //获得 lay-event 对应的值
+                    var tr = obj.tr; //获得当前行 tr 的DOM对象
+                    console.log(subdata);
+                    if (layEvent === 'delete') { //删除
+                        $.ajax({
+                            url: ip_url + "delRecord",
+                            type: 'get',
+                            async: false,
+                            data: subdata,
+                            dataType: 'json',
+                            success: function (data) {
+                                layer.msg("删除成功！");
+                                setTimeout("window.location.reload()", 800);
+                            }
+                        })
+                    }
+                });
+            }
+        });
+
+    </script
+
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='layui/css/layui.css') }}" media="all">
+</head>
+
+<body>
+    <div style="margin-top: 20px;margin-left: 20px;">
+        <form class="layui-form layui-form-pane" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户ID</label>
+                <div class="layui-input-inline">
+                    <input name="UID" required lay-verify="required" placeholder="示例：A12345" autocomplete="off"
+                        class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">*必填项</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" name="Upswd" required lay-verify="required" placeholder="示例：acdf@$34!(/"
+                        autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">*必填项</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-inline">
+                    <input name="Uname" placeholder="20个字符以内" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">*选填项</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">手机号</label>
+                <div class="layui-input-inline">
+                    <input name="Uphone" placeholder="示例：12345678901" autocomplete="off" class="layui-input"
+                        type="number">
+                </div>
+                <div class="layui-form-mid layui-word-aux">*选填项</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">首充金额</label>
+                <div class="layui-input-inline">
+                    <input name="Balance" required lay-verify="required" placeholder="单位（元）" autocomplete="off"
+                        class="layui-input" type="number">
+                </div>
+                <div class="layui-form-mid layui-word-aux">*必填项</div>
+            </div>
+            <div class="layui-form-item ">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='layui/layui.all.js') }}" charset="utf-8"></script>
+    <script src="{{ url_for('static', filename='js/ip_url.js') }}"></script>
+    <script>
+        layui.use(['jquery', 'form'], function (args) {
+            var $ = layui.jquery;
+            var form = layui.form;
+
+            //监听提交
+            form.on('submit(formDemo)', function (subdata) {
+                console.log(JSON.stringify(subdata.field));
+                var is_success = false;
+                $.ajax({
+                    url: ip_url + "signUpUser",
+                    type: 'get',
+                    async: false,
+                    data: subdata.field,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data) {
+                            var result = data.result
+                            if (result) { //结果为true
+                                layer.msg("注册成功！");
+                                is_success = true;
+                            } else {
+                                layer.msg("用户名已存在，注册失败！");
+                            }
+                        }
+                        else {
+                            layer.msg("获取数据失败！");
+                        }
+                    }
+                })
+                if (is_success) {
+                    setTimeout("window.location.reload()", 1500);
+                }
+                return false;
+            });
+        });
+    </script>
+
+</body>
+
+</html>

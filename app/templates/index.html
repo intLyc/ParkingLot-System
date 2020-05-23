@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>停车场管理系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='layui/css/layui.css') }}">
+</head>
+
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo">停车场管理系统</div>
+            <!-- 头部区域（可配合layui已有的水平导航） -->
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <img src="{{ url_for('static', filename='image/user.jpg') }}" class="layui-nav-img">
+                        管理员
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">设置</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">退出</a></li>
+            </ul>
+        </div>
+
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;">车场管理</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="./Lot/lotCar.html" target="main-frame">车库现况</a></dd>
+                            <dd><a href="./Lot/record.html" target="main-frame">订单管理</a></dd>
+                            <dd><a href="./Lot/user.html" target="main-frame">用户管理</a></dd>
+                            <dd><a href="./Lot/signUp.html" target="main-frame">用户注册</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;">进出登记</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="./Regist/autoIn.html" target="main-frame">自动入库</a></dd>
+                            <dd><a href="./Regist/autoOut.html" target="main-frame">自动出库</a></dd>
+                            <dd><a href="./Regist/in.html" target="main-frame">手动入库</a></dd>
+                            <dd><a href="./Regist/out.html" target="main-frame">手动出库</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="layui-body">
+            <!-- 内容主体区域 -->
+            <iframe src="./Lot/lotCar.html" id="iframe" width="100%" height="100%" frameborder="0" name="main-frame"
+                style="min-width: 1100px"></iframe>
+        </div>
+
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            © intLyc
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='layui/layui.all.js') }}"></script>
+    <script>
+        //JavaScript代码区域
+        layui.use('element', function () {
+            var element = layui.element;
+
+        });
+    </script>
+</body>
+
+</html>

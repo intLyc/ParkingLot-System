@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='layui/css/layui.css') }}" media="all">
+</head>
+
+<body>
+    <div style="margin-left: 20px;">
+        <div class="layui-btn-group demoTable">
+            <table id="demo" lay-filter="test"></table>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='layui/layui.all.js') }}" charset="utf-8"></script>
+    <script src="{{ url_for('static', filename='js/ip_url.js') }}"></script>
+    <script>
+        var subdata; //用于向子iframe传值
+        layui.use(['jquery',], function (args) {
+            var $ = layui.jquery;
+
+            //获取用户
+            $.ajax({
+                url: ip_url + "getUsers",
+                type: 'get',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    if (data) {
+                        console.log(data);
+                        showtable(data);
+                    }
+                    else {
+                        alert("获取数据失败！");
+                    }
+                }
+            })
+
+            //显示表格数据
+            function showtable(mydata) {
+                var element = layui.element;
+                var table = layui.table;
+                var form = layui.form;
+                //展示已知数据
+                table.render({
+                    elem: '#demo',
+                    cols: [[ //标题栏
+                        { field: 'UID', title: 'ID', width: 120, sort: true },
+                        { field: 'CID', title: '车牌号', width: 150, sort: true },
+                        { field: 'Uname', title: '用户名', width: 150, sort: true },
+                        { field: 'Uphone', title: '联系方式', width: 200, sort: true },
+                        { field: 'Balance', title: '余额', width: 100, sort: true },
+                        { fixed: 'right', title: '操作', width: 260, align: 'center', toolbar: "<div><a class='layui-btn layui-btn-sm' lay-event='charge'> 充值 </a><a class='layui-btn layui-btn-sm' lay-event='change'> 修改 </a><a class='layui-btn layui-btn-normal layui-btn-sm' lay-event='usercar'> 绑定 </a><a class='layui-btn layui-btn-danger layui-btn-sm' lay-event='deluser'> 删除 </a><div><div>" }
+                    ]],
+                    data: mydata,
+                    even: true,
+                    page: true, //是否显示分页
+                    limits: [5, 12, 20],
+                    limit: 12 //每页默认显示的数量
+                });
+
+                //监听工具条
+                table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                    subdata = obj.data; //获得当前行数据
+                    var layEvent = obj.event; //获得 lay-event 对应的值
+                    var tr = obj.tr; //获得当前行 tr 的DOM对象
+                    switch (layEvent) {
+                        case 'charge': //充值
+                            layer.open({
+                                type: 2,
+                                content: './user/chargeBalance.html',
+                                title: '充值',
+                                area: ['200px', '180px'],
+                                cancel: function () {
+                                    //右上角关闭回调
+                                }
+                            });
+                            break;
+                        case 'change': //修改信息
+                            layer.open({
+                                type: 2,
+                                content: './user/changeUser.html',
+                                title: '修改',
+                                area: ['330px', '320px'],
+                                cancel: function () {
+                                    //右上角关闭回调
+                                }
+                            });
+                            break;
+                        case 'usercar': //绑定车牌号
+                            layer.open({
+                                type: 2,
+                                content: './user/changeUserCar.html',
+                                title: '绑定',
+                                area: ['200px', '180px'],
+                                cancel: function () {
+                                    //右上角关闭回调
+                                }
+                            });
+                            break;
+                        case 'deluser': //删除
+                            $.ajax({
+                                url: ip_url + "delUser",
+                                type: 'get',
+                                async: false,
+                                data: {
+                                    UID: subdata.UID,
+                                    CID: subdata.CID
+                                },
+                                dataType: 'json',
+                                success: function (data) {
+                                    var result = data.result
+                                    if (result) { //结果为true
+                                        layer.msg("删除成功！");
+                                        setTimeout("window.location.reload()", 1500);
+                                    } else {
+                                        layer.msg("该用户的车正在车库中，无法删除！");
+                                    }
+                                }
+                            })
+                            break;
+                    }
+                });
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>

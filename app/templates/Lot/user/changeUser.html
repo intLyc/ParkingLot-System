@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='layui/css/layui.css') }}" media="all">
+</head>
+
+<body>
+    <div style="margin-top: 20px;margin-left: 20px;margin-right: 20px;">
+        <form class="layui-form layui-form-pane" action="" lay-filter="usercar">
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" name="Upswd" required lay-verify="required" placeholder="示例：acdf@$34!(/"
+                        autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-inline">
+                    <input name="Uname" placeholder="20个字符以内" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">手机号</label>
+                <div class="layui-input-inline">
+                    <input name="Uphone" placeholder="示例：12345678901" autocomplete="off" class="layui-input"
+                        type="number">
+                </div>
+            </div>
+            <div class="layui-form-item ">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='layui/layui.all.js') }}" charset="utf-8"></script>
+    <script src="{{ url_for('static', filename='js/ip_url.js') }}"></script>
+    <script>
+        layui.use(['jquery', 'form'], function (args) {
+            var $ = layui.jquery;
+            var form = layui.form;
+            var subdata = parent.subdata;
+            //表单赋值
+            form.val("usercar", {
+                "CID": subdata.CID,
+            })
+            //监听提交
+            form.on('submit(formDemo)', function (mydata) {
+                var xdata = mydata.field;
+                xdata.UID = subdata.UID;
+                console.log(xdata);
+                $.ajax({
+                    url: ip_url + "changeUser",
+                    type: 'get',
+                    async: false,
+                    data: xdata,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data) {
+                            var result = data.result
+                            if (result) { //结果为true
+                                layer.msg("修改成功！");
+                                setTimeout("parent.window.location.reload()", 1500);
+                            } else {
+                                layer.msg("修改失败！");
+                            }
+                        }
+                        else {
+                            layer.msg("修改失败！");
+                        }
+                    }
+                })
+                return false;
+            });
+        });
+    </script>
+
+</body>
+
+</html>
