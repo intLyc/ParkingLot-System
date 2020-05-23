@@ -10,6 +10,9 @@
 | app    | Web前后端               |
 | other  | mysql数据库、微信小程序 |
 
+### 服务器部署
+> https://www.jianshu.com/p/64be8ebd5da1
+>
 
 ### Web管理系统结构
 
